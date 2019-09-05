@@ -2,7 +2,8 @@
 09/04/2019
 
 ### Project Title
-Sean Oleary Python and git Project
+Python and git Project
+*Author:* Sean Oleary 
 
 ### Description
 Python interactive program allows user to see bikeshare statistics based on their input (city, month and day of week) submitted at command prompt.
