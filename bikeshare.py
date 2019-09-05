@@ -22,27 +22,26 @@ def get_filters():
     while True:
         # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
         city = str(input('\nWhich city would you like to explore: Chicago, New York City or Washington:\n').lower())
-    
+
         # TO DO: get user input for month (all, january, february, ... , june)
         month = str(input('\nWhich month (january, february, ..., june or all):\n').lower())
-    
+
         # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
         day = str(input('\nWhich day of week (sunday, monday, ..., saturday or all):\n').lower())
-        
+
         # determine if user inputs are valid before calculate statistics
         is_valid = validate_inputs(city, month, day)
-        
+
         if is_valid == True:
-            message = 'You selected City: {}; Month: {}; Day: {}'.format(city.title(), month.title(), day.title())
-            print(message)
+            print('You selected City: {}; Month: {}; Day: {}'.format(city.title(), month.title(), day.title()))
             #valid input breaks and returns back to main program
             break
         else:
             print('-'*40)
             print('Please enter a proper value that matches the prompt.')
-            
+
     print('-'*40)
-    
+
     return city, month, day
 
 
@@ -63,21 +62,21 @@ def load_data(city, month, day):
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['End Time'] = pd.to_datetime(df['End Time'])
-    
+
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
-    
+
     # extract hour from the Start Time column to create an hour column
     df['hour'] = df['Start Time'].dt.hour
-    
+
     # store total trip time end - start
     #df = df.assign(end_minus_start = df['End Time'] - df['Start Time'])
     df['end_minus_start'] = df['End Time'] - df['Start Time']
-    
+
     # combine start/end stations to create new column
     df['start_end_station'] = df['Start Station'] + ' : ' + df['End Station']
-                        
+
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
@@ -91,7 +90,7 @@ def load_data(city, month, day):
     if day != 'all':
         # filter by day of week to create the new dataframe
         df = df[df['day_of_week'] == day.title()]
-    
+
     #debug information, only display if lets_debug is set True
     if lets_debug:
         print('Shape: ', df.shape)
@@ -111,7 +110,7 @@ def time_stats(df):
     # TO DO: display the most common month
     popular_month = df['month'].value_counts().idxmax()
     print('Most Frequent Month:\n', popular_month)
-    
+
     # TO DO: display the most common day of week
     popular_dow = df['day_of_week'].value_counts().idxmax()
     print('Most Frequent day of week:\n', popular_dow)
@@ -132,7 +131,7 @@ def station_stats(df):
 
     # TO DO: display most commonly used start station
     popular_start_station = df['Start Station'].value_counts().idxmax()
-    print('Most popular start station:\n', popular_start_station)    
+    print('Most popular start station:\n', popular_start_station)
 
     # TO DO: display most commonly used end station
     popular_end_station = df['End Station'].value_counts().idxmax()
@@ -171,8 +170,8 @@ def user_stats(df):
     start_time = time.time()
 
     # TO DO: Display counts of user types
-    user_type = df['User Type'].value_counts()  
-    print('Counts per user type:\n', user_type) 
+    user_type = df['User Type'].value_counts()
+    print('Counts per user type:\n', user_type)
 
     # TO DO: Display counts of gender
     if 'Gender' in df.columns:
@@ -181,7 +180,7 @@ def user_stats(df):
     # TO DO: Display earliest, most recent, and most common year of birth
     if 'Birth Year' in df.columns:
         birth_year_min = df['Birth Year'].min()
-        print('Birth year of oldest user:\n',birth_year_min)    
+        print('Birth year of oldest user:\n',birth_year_min)
         birth_year_max = df['Birth Year'].max()
         print('Birth year of youngest user:\n',birth_year_max)
         birth_year_common = df['Birth Year'].value_counts().idxmax()
@@ -193,11 +192,11 @@ def user_stats(df):
 def display_raw(city, df):
     """
     Interacts with user to output raw data until user stops
-    
+
     Args:
         (str) city - name of the city to analyze
         (DataFrame) - raw_results based on Output df from load_data(city, month, day)
-        
+
     Returns:
         None - Only Screen output results presented of raw data stored in a Pandas DataFrame
     """
@@ -216,7 +215,7 @@ def display_raw(city, df):
                 print(df.iloc[start:stop,1:7])
         else:
             print('Sorry, that is not an option. Please restart.')
-            
+
         start = start + 5
         stop = stop + 5
         print('-'*40)
@@ -235,7 +234,7 @@ def validate_inputs(city, month, day):
     # months list
     valid_months = ['january', 'february', 'march', 'april', 'may', 'june']
     valid_days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-    
+
     if city in CITY_DATA and (month in valid_months or month == 'all') and (day in valid_days or day == 'all'):
         is_valid = True
     else:
@@ -246,8 +245,8 @@ def validate_inputs(city, month, day):
             print('validate_inputs months list: ', valid_months)
             print('validate_inputs day: ', day)
             print('validate_inputs days list: ', valid_days)
-            print('validate_inputs is_valid returned: ', is_valid) 
-    
+            print('validate_inputs is_valid returned: ', is_valid)
+
     return is_valid
 
 def main():
@@ -262,7 +261,7 @@ def main():
         trip_duration_stats(df)
         user_stats(df)
         display_raw(city,df)
-        
+
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
