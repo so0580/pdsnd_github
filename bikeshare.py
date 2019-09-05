@@ -71,7 +71,6 @@ def load_data(city, month, day):
     df['hour'] = df['Start Time'].dt.hour
 
     # store total trip time end - start
-    #df = df.assign(end_minus_start = df['End Time'] - df['Start Time'])
     df['end_minus_start'] = df['End Time'] - df['Start Time']
 
     # combine start/end stations to create new column
