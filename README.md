@@ -18,4 +18,6 @@ Provides user capability of viewing raw data in 5 record batches.
 *washington.csv*
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+Python project is based on my work within the Udacity Nanodegree - Programming for Data Science program.
+
+Forked Github repository from https://github.com/udacity/pdsnd_github
